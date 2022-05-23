@@ -6,8 +6,9 @@ import torch.nn.functional as F
 
 class TSPModel(nn.Module):
 
-    def __init__(self, **model_params):
+    def __init__(self, device, **model_params):
         super().__init__()
+        self.device = device
         self.model_params = model_params
 
         self.encoder = TSP_Encoder(**model_params)
@@ -25,7 +26,7 @@ class TSPModel(nn.Module):
         pomo_size = state.BATCH_IDX.size(1)
 
         if state.current_node is None:
-            selected = torch.arange(pomo_size)[None, :].expand(batch_size, pomo_size)
+            selected = torch.arange(pomo_size, device=self.device)[None, :].expand(batch_size, pomo_size)
             prob = torch.ones(size=(batch_size, pomo_size))
 
             encoded_first_node = _get_encoding(self.encoded_nodes, selected)
