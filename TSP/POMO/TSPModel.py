@@ -27,7 +27,7 @@ class TSPModel(nn.Module):
 
         if state.current_node is None:
             selected = torch.arange(pomo_size, device=self.device)[None, :].expand(batch_size, pomo_size)
-            prob = torch.ones(size=(batch_size, pomo_size))
+            prob = torch.ones(size=(batch_size, pomo_size), device=self.device)
 
             encoded_first_node = _get_encoding(self.encoded_nodes, selected)
             # shape: (batch, pomo, embedding)
